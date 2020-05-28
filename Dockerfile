@@ -41,8 +41,12 @@ ENV APACHE_DOCUMENT_ROOT=/var/www/html
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
+RUN cd /usr/local/etc/php/conf.d/ && \
+  	echo 'memory_limit = 1024M' >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini
+
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
+
 
 # IF PRESTASHOP
 # UPDATE ps_shop_url set domain="localhost", domain_ssl="localhost" where id_shop_url=1
